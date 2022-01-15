@@ -30,7 +30,7 @@ class loginController extends Controller
         Auth::login($user);
     
         // Rota nomeada
-        return redirect()->route('admin');
+        return redirect()->route('dashboard');
     
     }
 
@@ -50,7 +50,7 @@ class loginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('admin');
+            return redirect()->route('dashboard');
         }
 
         return back()->withErrors([

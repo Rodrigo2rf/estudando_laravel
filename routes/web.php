@@ -18,11 +18,19 @@ Route::get('/', function () {
 });
 
 // Autenticação
-Route::get('/login',            'App\Http\Controllers\loginController@index')->name('login');
-Route::get('/login/registrar',  'App\Http\Controllers\loginController@create');
-Route::get('/login/logout',     'App\Http\Controllers\loginController@logout');
+Route::get('/login','App\Http\Controllers\loginController@index')->name('login');
+Route::get('/login/registrar','App\Http\Controllers\loginController@create');
+Route::get('/login/logout','App\Http\Controllers\loginController@logout');
+Route::post('/login','App\Http\Controllers\loginController@autenticar');
+Route::post('/login/registrar','App\Http\Controllers\loginController@store');
 
-Route::post('/login',           'App\Http\Controllers\loginController@autenticar');
-Route::post('/login/registrar',  'App\Http\Controllers\loginController@store');
+// Dashboard
+Route::get('/dashboard','App\Http\Controllers\dashboardController@index')->name('dashboard');
 
-Route::get('/admin', 'App\Http\Controllers\adminController@index')->name('admin');
+// Admin
+Route::get('/admin/cadastrarSupermercado','App\Http\Controllers\adminController@formSupermercado')->name('form_supermercado');
+Route::post('/admin/cadastrarSupermercado','App\Http\Controllers\adminController@cadastrarSupermercado')->name('cadastrar_supermercado');
+Route::get('/admin/editarSupermercado/{id}','App\Http\Controllers\adminController@formEditarSupermercado')->name('editar_supermercado');
+Route::post('/admin/editarSupermercado/{id}','App\Http\Controllers\adminController@editarSupermercado')->name('editar_supermercado');
+
+Route::delete('/admin/excluirSupermercado/{id}', 'App\Http\Controllers\adminController@excluirSupermercado')->name('excluir_supermercado');
