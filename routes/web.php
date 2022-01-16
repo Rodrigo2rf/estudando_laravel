@@ -34,3 +34,15 @@ Route::get('/admin/editarSupermercado/{id}','App\Http\Controllers\adminControlle
 Route::post('/admin/editarSupermercado/{id}','App\Http\Controllers\adminController@editarSupermercado')->name('editar_supermercado');
 
 Route::delete('/admin/excluirSupermercado/{id}', 'App\Http\Controllers\adminController@excluirSupermercado')->name('excluir_supermercado');
+
+Route::get('/admin/cadastrarFeira','App\Http\Controllers\adminController@formFeira')->name('cadastrar_feira');
+Route::post('/admin/cadastrarFeira','App\Http\Controllers\adminController@cadastrarFeira')->name('cadastrar_feira');
+
+Route::get('/admin/informacoesFeira/{id}','App\Http\Controllers\adminController@informacoesFeira')->name('informacoes_feira');
+
+Route::post('/admin/informacoesFeira/{id}','App\Http\Controllers\adminController@editarFeira')->name('informacoes_feira');
+
+// Adicionar produto ao carrinho
+Route::post('/admin/informacoesFeira/{id}','App\Http\Controllers\adminController@adicionarProdutoAoCarrinho')->name('adicionar_produtos_ao_carrinho');
+
+Route::delete('/admin/excluirItemCarrinho/{item_id}/{info_id}', 'App\Http\Controllers\adminController@excluirItemCarrinho')->name('excluir_item_carrinho');

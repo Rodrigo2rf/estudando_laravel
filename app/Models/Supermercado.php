@@ -13,4 +13,8 @@ class Supermercado extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function feiras(){
+        return $this->hasMany(Feira::class);
+    }
+
 }
