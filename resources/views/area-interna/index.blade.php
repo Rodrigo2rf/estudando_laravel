@@ -1,17 +1,16 @@
-@extends('template')
+@extends('adminlte::page')
 
-@section('conteudo')
+@section('title', 'Dashboard')
 
-@if(!empty($mensagem))
-    <div class="alert alert-success">
-        {{ $mensagem }}
-    </div>
-@endif
+@section('content_header')
+    <h1>Dashboard</h1>
+    <h4>Olá {{ Auth::user()->name }}!</h4>
+@stop
 
-<h1>Olá {{ Auth::user()->name }}!</h1>
+@section('content')
 
 @foreach($feiras as $feira)
-    {{ $feira->data }} - {{ $feira->nome }} | <a href="{{ route('informacoes_feira',$feira->id) }}">Ver</a><br>
+    {{ \Carbon\Carbon::parse($feira->data)->format('d/m/Y') }} - {{ $feira->nome }} | <a href="{{ route('informacoes_feira',$feira->id) }}">Ver</a><br>
 @endforeach
 
 @foreach($supermercados as $supermercado)
@@ -25,7 +24,12 @@
     </form>
 @endforeach
 
-<br><a href="{{ route('cadastrar_supermercado') }}">Cadastrar supermercado</a>
-<br><a href="{{ route('cadastrar_feira') }}">Cadastrar feira</a>
+@stop
 
-@endsection
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+@stop
+
+@section('js')
+    <script> console.log('Hi!'); </script>
+@stop

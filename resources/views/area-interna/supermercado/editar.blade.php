@@ -1,6 +1,12 @@
-@extends('template')
+@extends('adminlte::page')
 
-@section('conteudo')
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1>Editar Supermercado</h1>
+@stop
+
+@section('content')
 
 @if(!empty($mensagem))
     <div class="alert alert-success">
@@ -8,24 +14,25 @@
     </div>
 @endif
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-    <form method="post">
-        @csrf
-
-        <div class="form-group">
-            <label for="nome">Nome</label>
-            <input type="text" name="nome" value="{{ $supermercado->nome }}" id="nome" required class="form-control">
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <form method="post">
+                        <div class="card-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="nome">Nome</label>
+                                <input type="text" name="nome" value="{{ $supermercado->nome }}" id="nome" required class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Editar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
 
-        <button type="submit" class="btn btn-primary mt-3">Editar</button>
-    </form>
-@endsection
+@stop

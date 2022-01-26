@@ -43,6 +43,10 @@ Route::get('/admin/informacoesFeira/{id}','App\Http\Controllers\adminController@
 Route::post('/admin/informacoesFeira/{id}','App\Http\Controllers\adminController@editarFeira')->name('informacoes_feira');
 
 // Adicionar produto ao carrinho
-Route::post('/admin/informacoesFeira/{id}','App\Http\Controllers\adminController@adicionarProdutoAoCarrinho')->name('adicionar_produtos_ao_carrinho');
+// Route::post('/admin/informacoesFeira/{id}','App\Http\Controllers\adminController@adicionarProdutoAoCarrinho')->name('adicionar_produtos_ao_carrinho');
 
 Route::delete('/admin/excluirItemCarrinho/{item_id}/{info_id}', 'App\Http\Controllers\adminController@excluirItemCarrinho')->name('excluir_item_carrinho');
+
+// Route::get('admin/invoice/create','App\Http\Controllers\adminController@create');
+
+Route::post('admin/api/produto','App\Http\Controllers\adminController@getAutocompleteData')->name('autocomplete_produtos'); 

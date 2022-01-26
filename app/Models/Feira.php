@@ -21,6 +21,20 @@ class Feira extends Model
             ->get();
     }
 
+    public function getFeiras(int $id)
+    {
+        return DB::table('feiras')
+            ->join('supermercados', 'feiras.supermercado_id', '=', 'supermercados.id')
+            ->join('users', 'feiras.user_id', '=', 'users.id')
+            ->leftjoin('carrinhos', 'carrinhos.feira_id', '=', 'feiras.id')
+            ->select('feiras.data', 'feiras.id', 'supermercados.nome',DB::raw('sum(carrinhos.preco_final) as preco_final'))
+            ->where('users.id', '=', $id)
+            ->orderBy('data','desc')
+            ->groupBy('feiras.data', 'feiras.id', 'supermercados.nome')
+            ->limit(5)
+            ->get();
+    }
+
     public function users(){
         return $this->belongsTo(User::class);
     }

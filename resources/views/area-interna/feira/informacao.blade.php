@@ -1,22 +1,24 @@
-@extends('template')
+@extends('adminlte::page')
 
-@section('conteudo')
+@section('title', 'Dashboard')
 
-<!-- Bootstrap DatePicker -->
-<script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
-<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
-<link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' media="screen" />
+@section('content_header')
+    <h1>Feira: {{ \Carbon\Carbon::parse($feira->data)->format('d/m/Y') }} - 
+    @foreach($supermercados as $supermercado)
+        @if($supermercado->id == $feira->supermercado_id)
+            {{ $supermercado->nome }}
+        @endif
+    @endforeach
+    </h1>
+@stop
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" type="text/css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js" type="text/javascript"></script>
-<!-- Bootstrap DatePicker -->
-<script type="text/javascript">
-    $(function () {
-        $('#txtDate').datepicker({
-            format: "dd/mm/yyyy"
-        });
-    });
-</script>
+@section('content')
+
+@section('plugins.TempusDominusBs4', true)
+
+@php
+    $config = ['format' => 'DD/MM/YYYY'];
+@endphp
 
 @if(!empty($mensagem))
     <div class="alert alert-success">
@@ -24,44 +26,54 @@
     </div>
 @endif
 
-<h2>{{ $feira->data }} - 
-@foreach($supermercados as $supermercado)
-    @if($supermercado->id == $feira->supermercado_id)
-        {{ $supermercado->nome }}
-    @endif
-@endforeach
-</h2>
+<h4>Editar feira</h4>
 
-<h3>Editar feira</h3>
+        <div class="row">       
+            <div class="col-md-12">
+                <div class="card">
+                    <form method="post" action="{{ route('informacoes_feira', $feira->id) }}">
+                        <div class="card-body">
+                            @csrf
+                            <input type="hidden" name="action" value="editarFeira">
 
-<form method="post">
-    @csrf
+                            <label for="nome">Data da compra</label>
+                            <x-adminlte-input-date name="data" value="{{ \Carbon\Carbon::parse($feira->data)->format('d/m/Y') }}" :config="$config" placeholder="Selecionar data...">
+                                <x-slot name="appendSlot">
+                                    <div class="input-group-text bg-gradient-success">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-input-date>
 
-    <p>Data compra</p>
-    <div class="input-group">
-        <input id="txtDate" type="text" name="data" value="{{ $feira->data }}" class="form-control date-input" readonly="readonly" />
-        <label class="input-group-btn" for="txtDate">
-            <span class="btn btn-default">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-        </label>
-    </div>
+                            <div class="form-group">
+                                <label for="nome">Selecionar supermercado</label>
+                                <select class="form-control" name="supermercado">
+                                    @foreach($supermercados as $supermercado)
+                                            <option value="{{ $supermercado->id }}" <?php if($supermercado->id == $feira->supermercado_id){ echo 'selected'; }?>>
+                                                {{ $supermercado->nome }}
+                                            </option>
+                                    @endforeach  
+                                </select>
+                            </div>
 
-    <br>
+                            <button type="submit" class="btn btn-primary">Salvar edição</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-    <p>Selecionar supermercado</p>
-    <div class="form-group">
-        <select class="form-control" name="supermercado">
-            @foreach($supermercados as $supermercado)
-            <option value="{{ $supermercado->id }}">{{ $supermercado->nome }}</option>
-            @endforeach  
-        </select>
-    </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Salvar edição</button>
-</form>
 
-<h3>Produtos adicionados ao carrinho</h3>
+<h4>Produtos adicionados ao carrinho</h4>
+
+<div class="row">       
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+
+@if(count($produtosFeira) != 0)
+
 
 <table class="table table-hover">
   <thead>
@@ -84,39 +96,100 @@
                 <form method="post" action="{{ route('excluir_item_carrinho',[$produto->item_id,$produto->id]) }}" onsubmit="return confirm('Tem certeza!?')">
                     @csrf
                     @method('DELETE')
-                    <button><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                    <button class="btn btn-danger float-left"><i class="far fa-trash-alt"></i> Excluir</button>
                 </form>
             </td>
         </tr>
         @endforeach
   </tbody>
 </table>
+<br>
+<h5>Total: R$ {{ number_format($total,2,",",".") }}</h5>
 
-<h4>Total: {{ number_format($total,2,",",".") }}</h4>
+@else
 
-<h3>Adicionar produto ao carrinho</h3>
+    <p>Nenhum produto acidionado.</p>
+
+@endif
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4>Adicionar produto ao carrinho</h4>
+
+<div class="row">       
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
 
 <form method="post">
     @csrf
+    
+    <input type="hidden" name="action" value="adicionarProdutoAoCarrinho">
 
-    <p>Produto</p>
     <div class="form-group">
-        <input type="text" name="nome" id="nome" required class="form-control">
+        <label for="produto">Produto</label>
+        <input type="text" name="nome" id="produto_nome" required class="form-control" autocomplete="off">
+        <div id="inputList"></div>
     </div>
 
-    <p>Preço</p>
     <div class="form-group">
+        <label for="preco">Preço</label>
         <input type="text" name="preco" id="preco" required class="form-control">
     </div>
 
-    <p>Quantidade</p>
     <div class="form-group">
+        <label for="quantidate">Quantidade/Peso</label>
         <input type="text" name="quantidade" id="quantidade" required class="form-control">
     </div>
 
     <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
 </form>
 
+</div></div></div></div>
+
 <br><a href="{{ route('dashboard') }}">Voltar</a>
 
-@endsection
+@stop
+
+@section('css')
+    <style>
+        .form-group{
+            position: relative;
+        }
+    </style>
+@stop
+
+@section('js')
+    <script>
+        $(function () {
+            $('#produto_nome').keyup(function(){
+                var string = $(this).val();
+                if(string != ''){
+                    var _token = $('input[name="_token"]').val();
+                    $.ajax({
+                        url: "{{ route('autocomplete_produtos') }}",
+                        method: "POST",
+                        data:{ string:string, _token:_token},
+                        success:function(data)
+                        {
+                            $('#inputList').fadeIn();
+                            $('#inputList').html(data);
+                        }
+                    })
+                }
+            });
+
+            $(document).on('click','li', function(){
+                $('#produto_nome').val($(this).text());
+                $('#inputList').fadeOut();
+            });
+
+            $(document).on('click',function(){
+                $('#inputList').fadeOut();
+            });
+        });
+    </script>
+@stop
