@@ -44,6 +44,8 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
+$pdo = new PDO('sqlite:database.sqlite');
+
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
