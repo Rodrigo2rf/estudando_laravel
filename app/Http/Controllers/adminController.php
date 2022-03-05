@@ -109,11 +109,12 @@ class adminController extends Controller
 
     public function informacoesFeira(int $id, Request $request)
     {
+        $f = new Feira();
         $supermercados = Supermercado::all();
         $feira = Feira::find($id);
 
         # recupera produtos da feira
-        $produtosFeira = Feira::getProdutos($id);
+        $produtosFeira = $f->getProdutos($id);
 
         $total = 0;
         foreach($produtosFeira as $produto){
