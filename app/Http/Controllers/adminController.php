@@ -28,11 +28,14 @@ class adminController extends Controller
 
     public function formFeira(Request $request)
     {
+
+        $f = new Feira();
+
         // recuperar os supermercados do usuário
         $supermercados = Supermercado::query()->where('user_id', '=', Auth::user()->id)->orderBy('nome')->get();
 
         // Retorna todas as feiras
-        $feiras = Feira::getFeiras(Auth::user()->id);
+        $feiras = $f::getFeiras(Auth::user()->id);
 
         // Verifica se existe alguma mensagem
         $mensagem = $request->session()->get('mensagem');
