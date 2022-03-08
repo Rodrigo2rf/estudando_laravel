@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Minhas Compras',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -189,7 +189,7 @@ return [
 
     'use_route_url' => false,
     'dashboard_url' => 'home',
-    'logout_url' => 'logout',
+    'logout_url' => 'login/logout',
     'login_url' => 'login',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
@@ -237,15 +237,15 @@ return [
         ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
+        // [
+        //     'type' => 'sidebar-menu-search',
+        //     'text' => 'search',
+        // ],
+        // [
+        //     'text' => 'blog',
+        //     'url'  => 'admin/blog',
+        //     'can'  => 'manage-blog',
+        // ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

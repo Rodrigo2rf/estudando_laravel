@@ -26,6 +26,9 @@
     </div>
 @endif
 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/gh/plentz/jquery-maskmoney@master/dist/jquery.maskMoney.min.js" type="text/javascript"></script>
+
 <h4>Editar feira</h4>
 
         <div class="row">       
@@ -118,7 +121,6 @@
 </div>
 
 <h4>Adicionar produto ao carrinho</h4>
-
 <div class="row">       
     <div class="col-md-12">
         <div class="card">
@@ -137,7 +139,7 @@
 
     <div class="form-group">
         <label for="preco">Preço</label>
-        <input type="text" name="preco" id="preco" required class="form-control">
+        <input type="text" data-thousands="." data-decimal="," data-prefix="R$ " name="preco" id="preco" required class="form-control">
     </div>
 
     <div class="form-group">
@@ -151,6 +153,12 @@
 </div></div></div></div>
 
 <br><a href="{{ route('dashboard') }}">Voltar</a>
+
+<script>
+    $(document).ready(function($){
+        $("#preco").maskMoney({ allowZero:false, allowNegative:false, defaultZero:false });
+    });
+</script>
 
 @stop
 
