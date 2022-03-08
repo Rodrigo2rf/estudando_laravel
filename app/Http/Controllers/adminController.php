@@ -147,6 +147,10 @@ class adminController extends Controller
             $query = DB::table('produtos')
                 ->where('nome', 'like', $request->nome)
                 ->get();
+
+                $preco = str_replace(",","*",$request->preco);
+                $preco = str_replace(".",",",$preco);
+                $preco = str_replace("*",".",$preco);
             
             if (!isset($query[0]->id)) {
                     DB::beginTransaction();
@@ -160,8 +164,8 @@ class adminController extends Controller
                 $carrinho = Carrinho::create([
                     'produto_id'    => $produto->id,
                     'quantidade'    => $request->quantidade,
-                    'preco'         => $request->preco,
-                    'preco_final'   => $request->preco * $request->quantidade,
+                    'preco'         => $preco,
+                    'preco_final'   => $preco * $request->quantidade,
                     'feira_id'      => $request->id
                 ]);
                 DB::commit();
@@ -172,8 +176,8 @@ class adminController extends Controller
                 $carrinho = Carrinho::create([
                     'produto_id'    => $query[0]->id,
                     'quantidade'    => $request->quantidade,
-                    'preco'         => $request->preco,
-                    'preco_final'   => $request->preco * $request->quantidade,
+                    'preco'         => $preco,
+                    'preco_final'   => $preco * $request->quantidade,
                     'feira_id'      => $request->id
                 ]);
                 DB::commit();
