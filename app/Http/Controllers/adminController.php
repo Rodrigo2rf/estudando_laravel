@@ -156,7 +156,9 @@ class adminController extends Controller
                 $preco = str_replace(",","*",$request->preco);
                 $preco = str_replace(".",",",$preco);
                 $preco = str_replace("*",".",$preco);
-            
+
+                $preco = str_replace('R$ ', '', $preco);
+          
             if (!isset($query[0]->id)) {
                     DB::beginTransaction();
 
