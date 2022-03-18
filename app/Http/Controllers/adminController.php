@@ -60,9 +60,13 @@ class adminController extends Controller
 
     public function cadastrarFeira(Request $request)
     {
+
+        $data = explode('/',$request->data);
+        $fdata = $data[2].'-'.$data[1].'-'.$data[0];
+
         DB::beginTransaction();
         $supermercado = Feira::create([
-            'data'      => $request->data,
+            'data'      => $fdata,
             'user_id'   => Auth::user()->id,
             'supermercado_id'   => $request->supermercado,
         ]);
