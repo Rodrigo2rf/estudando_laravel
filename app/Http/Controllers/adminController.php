@@ -132,8 +132,9 @@ class adminController extends Controller
         if ($request->input('action') == 'editarFeira') {
 
             $feira = Feira::find($request->id);
-    
-            $feira->data = $request->data;
+            
+            $data = explode('/',$request->data);
+            $feira->data = $data[2].'-'.$data[1].'-'.$data[0];
             $feira->supermercado_id = $request->supermercado;
 
             $feira->save();
