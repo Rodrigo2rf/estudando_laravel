@@ -37,6 +37,7 @@ Route::delete('/admin/excluirSupermercado/{id}', 'App\Http\Controllers\adminCont
 
 Route::get('/admin/cadastrarFeira','App\Http\Controllers\adminController@formFeira')->name('cadastrar_feira');
 Route::post('/admin/cadastrarFeira','App\Http\Controllers\adminController@cadastrarFeira')->name('cadastrar_feira');
+Route::delete('/admin/excluirFeira/{id}','App\Http\Controllers\adminController@excluirFeira')->name('excluir_feira');
 
 Route::get('/admin/informacoesFeira/{id}','App\Http\Controllers\adminController@informacoesFeira')->name('informacoes_feira');
 

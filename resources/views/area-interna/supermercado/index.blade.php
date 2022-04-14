@@ -21,12 +21,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         <div class="card-body">
                             @csrf
                             <div class="form-group">
                                 <label for="nome">Nome</label>
                                 <input type="text" name="nome" id="nome" required class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="logo">Logo</label>
+                                <input type="file" name="logo" id="logo" required class="form-control">
                             </div>
                             <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
                         </div>
@@ -48,11 +52,13 @@
                             <tr>
                                 <th>Estabelecimento</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($supermercados as $supermercado)
                             <tr>
+                                <td><img height="90" src="{{ $supermercado->logo_url }}"></td>
                                 <td>{{ $supermercado->nome }} </td>
                                 <td><a title="Editar" class="btn btn-info float-left mr-2" href="{{ route('editar_supermercado',$supermercado->id) }}"><i class="far fa-edit"></i> Editar</a>
                                 <form method="post" action="{{ route('excluir_supermercado',$supermercado->id) }}" onsubmit="return confirm('Tem certeza!?')">

@@ -60,8 +60,21 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary">Salvar edição</button>
+
+
+
                         </div>
                     </form>
+
+
+<div style="margin:0px 0px 15px 20px">
+                                    <form method="post" action="{{ route('excluir_feira', $feira->id) }}" onsubmit="return confirm('Tem certeza!?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger float-left"><i class="far fa-trash-alt"></i> Excluir</button>
+                                    </form>
+</div>
+
                 </div>
             </div>
         </div>

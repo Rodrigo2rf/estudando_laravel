@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\{Supermercado, Produto, Feira, Carrinho};
 use Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 class adminController extends Controller
 {
@@ -45,10 +47,17 @@ class adminController extends Controller
 
     public function cadastrarSupermercado(Request $request)
     {
+
+        $logo = "";
+        if($request->hasFile('logo')){
+            $logo = $request->file('logo')->store('supermercado/logo');
+        }
+
         DB::beginTransaction();
         $supermercado = Supermercado::create([
             'nome'      => $request->nome,
-            'user_id'   => Auth::user()->id
+            'user_id'   => Auth::user()->id,
+            'logo'      => $logo,
         ]);
         DB::commit();
 
@@ -89,10 +98,19 @@ class adminController extends Controller
         return view('area-interna.supermercado.editar', compact('supermercado', 'mensagem'));
     }
 
-    public function editarSupermercado(Request $request){
-
+    public function editarSupermercado(Request $request)
+    {
         $supermercado = Supermercado::find($request->id);
-        $supermercado->nome = $request->nome; 
+     
+        if($request->hasFile('logo')){
+
+            Storage::delete($supermercado->logo);
+
+            $logo = $request->file('logo')->store('supermercado/logo');
+            $supermercado->logo = $logo;
+        }
+        $supermercado->nome = $request->nome;
+     
         $supermercado->save();
 
         $request->session()->flash('mensagem',"Supermercado {$request->nome} editado com sucesso!");
@@ -104,12 +122,35 @@ class adminController extends Controller
     public function excluirSupermercado(int $id, Request $request)
     {
         $supermercado = Supermercado::find($id);
+
+        Storage::delete($supermercado->logo);
         $supermercado->delete();
 
         $request->session()->flash('mensagem',"Supermercado {$supermercado->nome} excluido com sucesso!");
 
         return redirect()->route('form_supermercado');
     }
+
+
+    public function excluirFeira(int $id, Request $request)
+    {
+        $feira = Feira::find($id);
+        
+        if($feira->user_id == Auth::user()->id){
+            $feira->delete();
+            $msg = "Operação realizada com sucesso!";
+            $route = "cadastrar_feira";
+        } else{
+            $msg = "Você não tem permissão para realizar essa operação!";
+            $route = "cadastrar_feira";
+        }
+
+        $request->session()->flash('mensagem',$msg);
+
+        return redirect()->route($route);
+    }
+
+
 
     public function informacoesFeira(int $id, Request $request)
     {
@@ -206,8 +247,16 @@ class adminController extends Controller
     }
 
     public function getAutocompleteData(Request $request){
-        if($request->has('string')){
-            $produtos = Produto::where('nome','ilike','%'.$request->input('string').'%')->get();
+        if($request->has('string'))
+        {
+            // $produtos = Produto::where('nome','ilike','%'.$request->input('string').'%')->get();
+            $produtos = DB::table('produtos')
+                ->join('carrinhos', 'produtos.id', '=', 'carrinhos.produto_id')
+                ->join('feiras', 'feiras.id', '=', 'carrinhos.feira_id')
+                ->where('produtos.nome','ilike','%'.$request->input('string').'%')
+                ->where('feiras.user_id','=',Auth::user()->id)
+                ->get();    
+
             $output = '<ul class="dropdown-menu" style="display:block; position:absolute; width: 100%;
             padding-left: 10px;">';
                 foreach($produtos as $produto){
