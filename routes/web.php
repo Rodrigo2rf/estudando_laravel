@@ -51,3 +51,5 @@ Route::delete('/admin/excluirItemCarrinho/{item_id}/{info_id}', 'App\Http\Contro
 // Route::get('admin/invoice/create','App\Http\Controllers\adminController@create');
 
 Route::post('admin/api/produto','App\Http\Controllers\adminController@getAutocompleteData')->name('autocomplete_produtos'); 
+Route::get('admin/produtos','App\Http\Controllers\adminController@getProdutos')->name('get_produtos');
+Route::get('admin/produto/{id}','App\Http\Controllers\adminController@getProdutoById')->name('get_produtos'); 

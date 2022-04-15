@@ -246,6 +246,21 @@ class adminController extends Controller
         return redirect()->route('informacoes_feira',$info_id);
     }
 
+
+
+    public function getProdutos(){
+        $produto = New Produto();
+        $produtos = $produto->getProdutosByUser(Auth::user()->id);
+        return view('area-interna.produto.index', compact('produtos'));
+    }
+
+    public function getProdutoById(int $produto_id){
+        $produto = New Produto();
+        $produto = $produto->getProdutosById($produto_id, Auth::user()->id);       
+        return view('area-interna.produto.detalhes', compact('produto'));
+    }
+
+
     public function getAutocompleteData(Request $request){
         if($request->has('string'))
         {

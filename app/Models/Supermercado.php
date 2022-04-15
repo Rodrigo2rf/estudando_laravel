@@ -18,12 +18,12 @@ class Supermercado extends Model
         return $this->hasMany(Feira::class);
     }
 
-    public function getLogoUrlAttribute(){
-        
+    public function getLogoUrlAttribute()
+    {   
         if ($this->logo) {
             return Storage::url($this->logo);
         }
-        return Storage::url('supermercado/logo/not-found.png');
+        return asset('/resources/img/not-found.png');
     }
 
 }

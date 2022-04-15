@@ -263,6 +263,11 @@ return [
             'url'   => 'admin/cadastrarFeira',
             'icon'  => 'fas fa-cart-plus',
         ],
+        [
+            'text'  => 'product',
+            'url'   => 'admin/produtos',
+            'icon'  => 'fas fa-briefcase',
+        ],
     ],
 
     /*
