@@ -14,7 +14,7 @@
     </div>
 @endif
 
-<h4>{{ $produto[0]->produto }}</h4>
+<h4></h4>
 
 <br>
 
