@@ -28,7 +28,7 @@ class Produto extends Model
             ->join('carrinhos', 'produtos.id', '=', 'carrinhos.produto_id')
             ->join('feiras', 'feiras.id', '=', 'carrinhos.feira_id')
             ->join('supermercados', 'feiras.supermercado_id', '=', 'supermercados.id')
-            ->select('produtos.nome as produto','supermercados.nome as supermercado', 'carrinhos.preco as preco','feiras.data as data')
+            ->select('produtos.nome as produto','produtos.id as produto_id','supermercados.nome as supermercado', 'carrinhos.preco as preco','feiras.data as data')
             ->where('feiras.user_id','=', $user_id)
             ->where('produtos.id','=', $produto_id)
             ->orderBy('feiras.data', 'desc')

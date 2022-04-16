@@ -118,6 +118,17 @@ class adminController extends Controller
         return redirect()->route('editar_supermercado',$request->id);
     }
 
+    public function editarProduto(int $id, Request $request)
+    {
+        $produto = Produto::find($id);
+        $produto->nome = $request->nome;
+        $produto->save();
+
+        $request->session()->flash('mensagem',"Produto {$request->nome} editado com sucesso!");
+
+        return redirect()->route('get_produtos',$id);
+    }
+
 
     public function excluirSupermercado(int $id, Request $request)
     {
