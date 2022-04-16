@@ -38,6 +38,9 @@ Route::delete('/admin/excluirSupermercado/{id}', 'App\Http\Controllers\adminCont
 Route::get('/admin/cadastrarFeira','App\Http\Controllers\adminController@formFeira')->name('cadastrar_feira');
 Route::post('/admin/cadastrarFeira','App\Http\Controllers\adminController@cadastrarFeira')->name('cadastrar_feira');
 Route::delete('/admin/excluirFeira/{id}','App\Http\Controllers\adminController@excluirFeira')->name('excluir_feira');
+Route::get('/admin/listarFeiras','App\Http\Controllers\adminController@listarFeiras')->name('listar_feiras');
+Route::get('/admin/teste','App\Http\Controllers\adminController@teste')->name('teste');
+
 
 Route::get('/admin/informacoesFeira/{id}','App\Http\Controllers\adminController@informacoesFeira')->name('informacoes_feira');
 
@@ -52,5 +55,5 @@ Route::delete('/admin/excluirItemCarrinho/{item_id}/{info_id}', 'App\Http\Contro
 
 Route::post('admin/api/produto','App\Http\Controllers\adminController@getAutocompleteData')->name('autocomplete_produtos'); 
 Route::get('admin/produtos','App\Http\Controllers\adminController@getProdutos')->name('get_produtos');
-Route::get('admin/produto/{id}','App\Http\Controllers\adminController@getProdutoById')->name('get_produtos'); 
+Route::get('admin/produto/{id}','App\Http\Controllers\adminController@getProdutoById')->name('get_produtos_by_id'); 
 Route::post('admin/editarProduto/{id}','App\Http\Controllers\adminController@editarProduto')->name('editar_produto');

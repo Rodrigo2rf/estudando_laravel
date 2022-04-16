@@ -19,7 +19,8 @@ class Produto extends Model
             ->join('carrinhos', 'produtos.id', '=', 'carrinhos.produto_id')
             ->join('feiras', 'feiras.id', '=', 'carrinhos.feira_id')
             ->where('feiras.user_id','=', $user_id)
-            ->distinct('produtos.id')
+            ->orderBy('produtos.nome', 'asc')
+            ->distinct('produtos.nome')
             ->get(); 
     }
 

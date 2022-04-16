@@ -54,7 +54,7 @@
             </div>
         </div>
 
-<h4>Últimas feiras <span class="small">(<a href="#">ver todas</a>)</span></h4>
+<h4>Últimas feiras <span class="small">(<a href="{{ route('listar_feiras') }}">ver todas</a>)</span></h4>
 
  <div class="row">
         <div class="col-12">

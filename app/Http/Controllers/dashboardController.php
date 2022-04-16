@@ -23,15 +23,13 @@ class dashboardController extends Controller
         $mensagem = $request->session()->get('mensagem');
 
         // recuperar os supermercados do usuário
-        $supermercados = Supermercado::query()->where('user_id', '=', Auth::user()->id)->orderBy('nome')->get();
+        $supermercados = DB::table('supermercados')->count();
 
         // Recuperar as feiras do usuário
-        $feiras  = DB::table('feiras')->join('supermercados', 'feiras.supermercado_id', '=', 'supermercados.id')
-            ->join('users', 'feiras.user_id', '=', 'users.id')
-            ->select('feiras.data', 'feiras.id', 'supermercados.nome')
-            ->where('users.id', '=', Auth::user()->id)
-            ->get();
+        $feiras = DB::table('feiras')->count();
 
-        return view('area-interna.index', compact('mensagem','supermercados','feiras'));
+        $produtos = DB::table('produtos')->count();
+
+        return view('area-interna.index', compact('mensagem','supermercados','feiras','produtos'));
     }
 }

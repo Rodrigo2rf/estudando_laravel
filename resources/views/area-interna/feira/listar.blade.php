@@ -3,10 +3,12 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Produto</h1>
+    <h1>Compras</h1>
 @stop
 
 @section('content')
+
+@section('plugins.TempusDominusBs4', true)
 
 @if(!empty($mensagem))
     <div class="alert alert-success">
@@ -14,27 +16,28 @@
     </div>
 @endif
 
-<h4>Listar</h4>
-
-    <div class="row">
+ <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th>Item</th>
+                                <th>Estabelecimento</th>
+                                <th>Data</th>
+                                <th>Valor total</th>
                                 <th></th>
                             </tr>
                         </thead>
-                            @foreach($produtos as $produto)
+                        <tbody>
+                            @foreach($feiras as $feira)
                             <tr>
-                                <td>{{ $produto->nome }}</td>
-                                <td><a href="{{ route('get_produtos_by_id', $produto->produto_id) }}">Ver histório | Editar</a></td>
+                                <td>{{ $feira->nome }}</td>
+                                <td>{{ \Carbon\Carbon::parse($feira->data)->format('d/m/Y') }}</td>
+                                <td>@if($feira->preco_final != 0) R$ {{ number_format($feira->preco_final,2,",",".") }} @else - @endif</td>
+                                <td><a title="Editar" class="btn btn-info float-left mr-2" href="{{ route('informacoes_feira',$feira->id) }}"><i class="fas fa-info"></i> Informações</a></td>
                             </tr>
                             @endforeach
-                        <tbody>
-                           
                         </tbody>
                     </table>
                 </div>
@@ -43,5 +46,10 @@
             <!-- /.card -->
         </div>
     </div>
+    @stop
 
+@section('css')
+@stop
+
+@section('js')
 @stop

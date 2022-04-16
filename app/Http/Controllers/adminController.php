@@ -28,6 +28,12 @@ class adminController extends Controller
         return view('area-interna.supermercado.index', compact('supermercados','mensagem'));
     }
 
+    public function listarFeiras(){
+        $f = new Feira();
+            $feiras = $f->getAllFeiras(Auth::user()->id);
+            return view('area-interna.feira.listar', compact('feiras'));
+    }
+
     public function formFeira(Request $request)
     {
 

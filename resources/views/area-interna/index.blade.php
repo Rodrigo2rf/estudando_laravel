@@ -9,20 +9,50 @@
 
 @section('content')
 
-@foreach($feiras as $feira)
-    {{ \Carbon\Carbon::parse($feira->data)->format('d/m/Y') }} - {{ $feira->nome }} | <a href="{{ route('informacoes_feira',$feira->id) }}">Ver</a><br>
-@endforeach
+<div class="row">
+<div class="col-lg-3 col-6">
 
-@foreach($supermercados as $supermercado)
-    {{ $supermercado->nome }} 
-    <a href="{{ route('editar_supermercado',$supermercado->id) }}">Editar</a> |
+<div class="small-box bg-info">
+<div class="inner">
+<h3>{{$feiras}}</h3>
+<p>Compras</p>
+</div>
+<div class="icon">
+<i class="ion ion-bag"></i>
+</div>
+<a href="{{ route('cadastrar_feira') }}" class="small-box-footer">Saiba mais <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
 
-    <form method="post" action="{{ route('excluir_supermercado',$supermercado->id) }}" onsubmit="return confirm('Tem certeza!?')">
-        @csrf
-        @method('DELETE')
-        <button>Excluir</button>
-    </form>
-@endforeach
+<div class="col-lg-3 col-6">
+
+<div class="small-box bg-success">
+<div class="inner">
+<h3>{{$supermercados}}</h3>
+<p>Estabelecimentos</p>
+</div>
+<div class="icon">
+<i class="ion ion-stats-bars"></i>
+</div>
+<a href="{{ route('form_supermercado') }}" class="small-box-footer">Saiba mais <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+
+<div class="col-lg-3 col-6">
+
+<div class="small-box bg-warning">
+<div class="inner">
+<h3>{{ $produtos }}</h3>
+<p>Produtos</p>
+</div>
+<div class="icon">
+<i class="ion ion-person-add"></i>
+</div>
+<a href="{{ route('get_produtos') }}" class="small-box-footer">Saiba mais <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+
+</div>
 
 @stop
 
