@@ -287,6 +287,7 @@ class adminController extends Controller
                 ->join('feiras', 'feiras.id', '=', 'carrinhos.feira_id')
                 ->where('produtos.nome','ilike','%'.$request->input('string').'%')
                 ->where('feiras.user_id','=',Auth::user()->id)
+                ->distinct('produtos.id')
                 ->get();    
 
             $output = '<ul class="dropdown-menu" style="display:block; position:absolute; width: 100%;
