@@ -268,6 +268,11 @@ return [
             'url'   => 'admin/produtos',
             'icon'  => 'fas fa-briefcase',
         ],
+        [
+            'text' => 'logout',
+            'url'  => 'login/logout',
+            'icon' => 'fas fa-power-off',
+        ],
     ],
 
     /*

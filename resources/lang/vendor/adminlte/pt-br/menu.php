@@ -19,5 +19,6 @@ return [
     'menu_itens'                    => 'Menu',
     'add_store'                     => 'Supermercados',
     'add_order'                     => 'Feiras',
-    'product'                       => 'Produtos'
+    'product'                       => 'Produtos',
+    'logout'                        => 'Sair'
 ];
