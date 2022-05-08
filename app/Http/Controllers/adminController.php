@@ -28,11 +28,233 @@ class adminController extends Controller
         return view('area-interna.supermercado.index', compact('supermercados','mensagem'));
     }
 
-    public function listarFeiras(){
-        $f = new Feira();
-            $feiras = $f->getAllFeiras(Auth::user()->id);
-            return view('area-interna.feira.listar', compact('feiras'));
+    public function listarFeirasPorMes(int $mes, int $ano)
+    {
+
+        $feira = new Feira();
+
+        $dataInicial = 1641006000;
+        $dataAtual = time();
+
+        switch($mes){
+            case 1: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Janeiro',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 2: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Fevereiro',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 3: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Março',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 4: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Abril',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 5: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Maio',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 6: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Junho',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 7: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Julho',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 8: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Agosto',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 9: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Setembro',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 10: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Outubro',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 11: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Novembro',
+                    'mes_num' => $mes 
+                );
+                break;
+            case 12: 
+                $mes_pesquisado = array(
+                    'mes_extenso' => 'Dezembro',
+                    'mes_num' => $mes 
+                );
+                break;
+        }
+
+        $dataStart    = $ano.'-'.$mes.'-01';
+        $dataFinal      = date('Y-m-t', strtotime($ano.'-'.$mes.'-01'));
+
+        $feiras = $feira->getFeirasPorMes(Auth::user()->id, $dataStart, $dataFinal);
+            
+            $mesAtual = date('m', $dataAtual);
+            $anoAtual = date('Y', $dataAtual);
+
+            $anoInicialAtual = ($anoAtual - 2022) + 1;
+
+            $mesAno = array();
+            $qtdMes = 0;
+            for ($a = 0; $a < $anoInicialAtual; $a++) {
+                if(($a + 1) == $anoInicialAtual){
+                    $qtdMes = $mesAtual;
+                } else {
+                    $qtdMes = 12;
+                }
+                for ($m = 1; $m <= $qtdMes; $m++) {
+                    switch($m){
+                        case 1: 
+                            $mes_ext = 'Janeiro';
+                            break;
+                        case 2: 
+                            $mes_ext = 'Fevereiro';
+                            break;
+                        case 3: 
+                            $mes_ext = 'Março';
+                            break;
+                        case 4: 
+                            $mes_ext = 'Abril';
+                            break;
+                        case 5: 
+                            $mes_ext = 'Maio';
+                            break;
+                        case 6: 
+                            $mes_ext = 'Junho';
+                            break;
+                        case 7: 
+                            $mes_ext = 'Julho';
+                            break;
+                        case 8: 
+                            $mes_ext = 'Agosto';
+                            break;
+                        case 9: 
+                            $mes_ext = 'Setembro';
+                            break;
+                        case 10: 
+                            $mes_ext = 'Outubro';
+                            break;
+                        case 11: 
+                            $mes_ext = 'Novembro';
+                            break;
+                        case 12: 
+                            $mes_ext = 'Dezembro';
+                            break;
+                    }
+                    $dados = array(
+                        'mes' => $m,
+                        'ano' => 2022 + $a,
+                        'mes_ext' => $mes_ext
+                    );
+                    array_push($mesAno, $dados);
+                }
+                $m = 1;
+            }
+            return view('area-interna.feira.listar_por_mes', compact('feiras', 'mesAno', 'mes_pesquisado'));
+
     }
+
+
+    public function listarFeiras(){
+            
+            $feira = new Feira();
+            
+            $dataInicial = 1641006000;
+            $dataAtual = time();
+
+            $feiras = $feira->getAllFeiras(Auth::user()->id);
+            
+            $mesAtual = date('m', $dataAtual);
+            $anoAtual = date('Y', $dataAtual);
+
+            $anoInicialAtual = ($anoAtual - 2022) + 1;
+
+            $mesAno = array();
+            $qtdMes = 0;
+            for ($a = 0; $a < $anoInicialAtual; $a++) {
+                if(($a + 1) == $anoInicialAtual){
+                    $qtdMes = $mesAtual;
+                } else {
+                    $qtdMes = 12;
+                }
+                for ($m = 1; $m <= $qtdMes; $m++) {
+                    switch($m){
+                        case 1: 
+                            $mes_ext = 'Janeiro';
+                            break;
+                        case 2: 
+                            $mes_ext = 'Fevereiro';
+                            break;
+                        case 3: 
+                            $mes_ext = 'Março';
+                            break;
+                        case 4: 
+                            $mes_ext = 'Abril';
+                            break;
+                        case 5: 
+                            $mes_ext = 'Maio';
+                            break;
+                        case 6: 
+                            $mes_ext = 'Junho';
+                            break;
+                        case 7: 
+                            $mes_ext = 'Julho';
+                            break;
+                        case 8: 
+                            $mes_ext = 'Agosto';
+                            break;
+                        case 9: 
+                            $mes_ext = 'Setembro';
+                            break;
+                        case 10: 
+                            $mes_ext = 'Outubro';
+                            break;
+                        case 11: 
+                            $mes_ext = 'Novembro';
+                            break;
+                        case 12: 
+                            $mes_ext = 'Dezembro';
+                            break;
+                    }
+                    $dados = array(
+                        'mes' => $m,
+                        'ano' => 2022 + $a,
+                        'mes_ext' => $mes_ext
+                    );
+                    array_push($mesAno, $dados);
+                }
+                $m = 1;
+            }
+            return view('area-interna.feira.listar', compact('feiras', 'mesAno'));
+    
+        }
 
     public function formFeira(Request $request)
     {
@@ -130,9 +352,7 @@ class adminController extends Controller
         $produto->nome = $request->nome;
         $produto->save();
 
-        $request->session()->flash('mensagem',"Produto {$request->nome} editado com sucesso!");
-
-        return redirect()->route('get_produtos',$id);
+        return back()->with('mensagem', "Produto {$request->nome} editado com sucesso!"); 
     }
 
 
@@ -271,10 +491,12 @@ class adminController extends Controller
         return view('area-interna.produto.index', compact('produtos'));
     }
 
-    public function getProdutoById(int $produto_id){
+    public function getProdutoById(int $produto_id, Request $request){
         $produto = New Produto();
-        $produto = $produto->getProdutosById($produto_id, Auth::user()->id);       
-        return view('area-interna.produto.detalhes', compact('produto'));
+        $produto = $produto->getProdutosById($produto_id, Auth::user()->id); 
+        $mensagem =  $request->session()->get('mensagem');
+      
+        return view('area-interna.produto.detalhes', compact('produto','mensagem'));
     }
 
 

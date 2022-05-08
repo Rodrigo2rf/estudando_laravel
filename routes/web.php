@@ -39,6 +39,7 @@ Route::get('/admin/cadastrarFeira','App\Http\Controllers\adminController@formFei
 Route::post('/admin/cadastrarFeira','App\Http\Controllers\adminController@cadastrarFeira')->name('cadastrar_feira');
 Route::delete('/admin/excluirFeira/{id}','App\Http\Controllers\adminController@excluirFeira')->name('excluir_feira');
 Route::get('/admin/listarFeiras','App\Http\Controllers\adminController@listarFeiras')->name('listar_feiras');
+Route::get('/admin/listarFeirasPorMes/{mes}/{ano}','App\Http\Controllers\adminController@listarFeirasPorMes');
 Route::get('/admin/teste','App\Http\Controllers\adminController@teste')->name('teste');
 
 
